@@ -11,6 +11,12 @@
  *
  * http://www.processwire.com
  * http://www.ryancramer.com
+ * 
+ * fork of
+ * @version 1.0.3
+ * 
+ * @since 1.0.2 forked https://github.com/phlppschrr/TextformatterMakeLinks, added dashes to allowed characters in regex pattern for attribute names - 2025-07-19
+ * @since 1.0.3 change to regex pattern for attribute name which covers all allowed possibilities - 2025-07-19
  *
  */
 class TextformatterMakeLinks extends Textformatter
@@ -21,7 +27,7 @@ class TextformatterMakeLinks extends Textformatter
         return array(
             'title' => __('Textformatter Make HTML Links', __FILE__),
             'summary' => __("Takes a block of text and converts all URLs into HTML links", __FILE__),
-            'version' => 102,
+            'version' => 103,
             'href' => 'http://flourishlib.com/api/fHTML#makeLinks',
             'icon' => 'link',
         );
@@ -39,14 +45,7 @@ class TextformatterMakeLinks extends Textformatter
          */
         $link_text_length = 0;
         // Find all a tags with contents, individual HTML tags and HTML comments
-        $reg_exp = "/<\s*a(?:\s+[\w:-]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*>.*?<\s*\/\s*a\s*>|<\s*\/?\s*[\w:]+(?:\s+[\w:-]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*\/?\s*>|<\!--.*?-->/s";
-
-        // changed allowed chracters for attribute names: all except [^\x00-\x20\x3e\x7f\/\=]
-        // https://www.w3.org/TR/2011/WD-html5-20110525/syntax.html#syntax-attribute-name
-        // as a minimum dash should be allowed for attribut names
-        // added case insensitive flag
-
-        // $reg_exp = "/<\s*a(?:\s+[^\x00-\x20\x3e\x7f\/\=]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*>.*?<\s*\/\s*a\s*>|<\s*\/?\s*[\w:]+(?:\s+[^\x00-\x20\x3e\x7f\/\=]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*\/?\s*>|<\!--.*?-->/si";
+        $reg_exp = "/<\s*a(?:\s+[^\x00-\x20\x3e\x7f\/\=]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*>.*?<\s*\/\s*a\s*>|<\s*\/?\s*[\w:]+(?:\s+[^\x00-\x20\x3e\x7f\/\=]+(?:\s*=\s*(?:\"[^\"]*?\"|'[^']*?'|[^'\">\s]+))?)*\s*\/?\s*>|<\!--.*?-->/si";
 
         preg_match_all($reg_exp, $content, $html_matches, PREG_SET_ORDER);
 
